@@ -1,4 +1,3 @@
-set -e
-
-export DEVICE=gtexswifi
-export VENDOR=samsung
+#!/bin/bash
+adb root
+adb pull /system
