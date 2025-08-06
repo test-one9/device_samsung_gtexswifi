@@ -1,6 +1,6 @@
 [
   {
-    "repository": "android_device_samsung_gtexswifi",
-    "target_path": "device/samsung/gtexswifi"
+    "repository": "android_device_samsung_gtexs-common",
+    "target_path": "device/samsung/gtexs-common"
   }
 ]
