@@ -1,24 +1,44 @@
 #!/bin/bash
-#
-# Copyright (C) 2017 The LineageOS Project
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
-
 
 set -e
 
-export DEVICE=gtexswifi
-export VENDOR=samsung
+DEVICE=gtexswifi
+VENDOR=samsung
 
-./../$DEVICE_COMMON/setup-makefiles.sh $@
+# Load extract_utils and do some sanity checks
+MY_DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$MY_DIR" ]]; then MY_DIR="$PWD"; fi
+
+LINEAGE_ROOT="$MY_DIR/../../.."
+HELPER="$LINEAGE_ROOT/vendor/lineage/build/tools/extract_utils.sh"
+if [ ! -f "$HELPER" ]; then
+    echo "Unable to find helper script at $HELPER"
+    exit 1
+fi
+. "$HELPER"
+
+# Initialize the helper
+setup_vendor "$DEVICE" "$VENDOR" "$LINEAGE_ROOT"
+
+# Copyright headers and guards
+write_headers
+
+# Blob lists
+write_makefiles "$MY_DIR/proprietary-files.txt" true
+
+# Device specific makefiles
+cat << EOF >> "$ANDROIDMK"
+include \$(CLEAR_VARS)
+LOCAL_MODULE := libGLES_mali
+LOCAL_MODULE_CLASS := SHARED_LIBRARIES
+LOCAL_MODULE_SUFFIX := .so
+LOCAL_VENDOR_MODULE := true
+LOCAL_MULTILIB := both
+LOCAL_SRC_FILES_64 := proprietary/vendor/lib64/egl/libGLES_mali.so
+LOCAL_SRC_FILES_32 := proprietary/vendor/lib/egl/libGLES_mali.so
+include \$(BUILD_PREBUILT)
+
+EOF
+
+# Finish
+write_footers
