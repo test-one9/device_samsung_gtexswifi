@@ -1,6 +1,8 @@
 # Inherit from common
 $(call inherit-product, device/samsung/gtexs-common/gtexs-common.mk)
 
+$(call inherit-product-if-exists, vendor/samsung/gtexswifi/gtexswifi-vendor-blobs.mk)
+
 # Device overlay
 DEVICE_PACKAGE_OVERLAYS += device/samsung/gtexswifi/overlay
 
