@@ -1,5 +1,5 @@
 # android_device_samsung_gtexswifi
-### LineageOS device tree for Samsung Galaxy Tab A 7.0 (2016) (gtexswifi) Created By Ali-Git-Official
+### LineageOS device tree for Samsung Galaxy Tab A 7.0 (2016) (gtexswifi) Created By test-one9
 
 Component   | Details
 -------:|:-------------------------
