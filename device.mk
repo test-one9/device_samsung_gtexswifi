@@ -1,34 +1,46 @@
-# Inherit from common
-$(call inherit-product, device/samsung/gtexs-common/gtexs-common.mk)
+    $(LOCAL_PATH)/configs/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml
 
-$(call inherit-product-if-exists, vendor/samsung/gtexswifi/gtexswifi-vendor-blobs.mk)
+# Network/Wifi packages
+PRODUCT_PACKAGES += \
+    libwpa_client \
+    hostapd \
+    wificond \
+    wpa_supplicant \
+    wpa_supplicant.conf
 
-# Device overlay
-DEVICE_PACKAGE_OVERLAYS += device/samsung/gtexswifi/overlay
+# Graphics and Gralloc HAL packages
+PRODUCT_PACKAGES += \
+    gralloc.sc8830 \
+    hwcomposer.sc8830 \
+    libion
 
-# Keylayout
-PRODUCT_COPY_FILES += \
-    device/samsung/gtexswifi/keylayout/sec_touchscreen.kl:system/usr/keylayout/sec_touchscreen.kl
+# Sensors and Peripheral packages
+PRODUCT_PACKAGES += \
+    sensors.gtexswifi
 
-# Init scripts
-PRODUCT_COPY_FILES += \
-    device/samsung/gtexswifi/rootdir/init.recovery.gtexswifi.rc:root/init.recovery.gtexswifi.rc \
-    device/samsung/gtexswifi/rootdir/init.gtexswifi.rc:root/init.gtexswifi.rc
+# GPS implementation
+PRODUCT_PACKAGES += \
+    gps.gtexswifi \
+    libgps
 
-# Permissions
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml
+# Camera implementation
+PRODUCT_PACKAGES += \
+    camera.gtexswifi \
+    libcamera
 
-# Features
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml
+# Memory Optimization (zRAM / KSM config)
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.config.zram=true \
+    ro.sys.fw.bg_apps_limit=12
 
-# Product characteristics
-PRODUCT_CHARACTERISTICS := tablet
+# Load custom system properties from configurator
+# Custom overrides
+ro.config.low_ram=true
+dalvik.vm.heaptargetutilization=0.75
+dalvik.vm.heapstartsize=8m
+dalvik.vm.heapgrowthlimit=128m
+dalvik.vm.heapsize=256m
 
-# Device identifier
-PRODUCT_NAME := gtexswifi
-PRODUCT_DEVICE := gtexswifi
-PRODUCT_MODEL := SM-T280
-PRODUCT_BRAND := samsung
-PRODUCT_MANUFACTURER := Samsung
+
+# Inherit vendor proprietary blobs from Samsung extraction
+$(call inherit-product-if-exists, vendor/samsung/gtexswifi/gtexswifi-vendor.mk)
