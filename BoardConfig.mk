@@ -28,7 +28,7 @@ TARGET_CPU_SMP := true
 # Kernel Configurations (Custom 3.10.108 Android Kernel)
 TARGET_KERNEL_ARCH := arm
 TARGET_PREBUILT_KERNEL := device/samsung/gtexswifi/kernel/zImage
-TARGET_KERNEL_CONFIG := gtexswifi_defconfig
+TARGET_KERNEL_CONFIG := gtexswifi-dt_defconfig
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := console=ttyS1,115200n8 androidboot.hardware=gtexswifi androidboot.selinux=permissive lpm_bootimg=vboot androidboot.bootdevice=soc.0/21900000.sdio
