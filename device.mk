@@ -4,6 +4,18 @@ TARGET_SCREEN_WIDTH := 800
 TARGET_SCREEN_HEIGHT := 1280
 TARGET_BOOTANIMATION_HALF_RES := true
 
+# This device is hdpi
+PRODUCT_AAPT_CONFIG := normal
+PRODUCT_AAPT_PREF_CONFIG := hdpi
+# Ramdisk
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/rootdir/init.board.rc:root/init.board.rc \
+    $(LOCAL_PATH)/rootdir/init.sc8830.rc:root/init.sc8830.rc \
+    $(LOCAL_PATH)/rootdir/init.sc8830.usb.rc:root/init.sc8830.usb.rc \
+    $(LOCAL_PATH)/rootdir/fstab.sc8830:root/fstab.sc8830 \
+    $(LOCAL_PATH)/rootdir/ueventd.sc8830.rc:root/ueventd.sc8830.rc \
+    $(LOCAL_PATH)/rootdir/init.wifi.rc:root/init.wifi.rc \
+    $(LOCAL_PATH)/rootdir/init.dhcp.rc:root/init.dhcp.rc
 # Network/Wifi packages
 PRODUCT_PACKAGES += \
     libwpa_client \
